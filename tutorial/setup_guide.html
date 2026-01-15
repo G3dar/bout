@@ -459,6 +459,7 @@
         <header>
             <h1>BOUT - Configuracion Inicial</h1>
             <p class="subtitle">Configura la identificacion de hablantes en 3 simples pasos</p>
+            <p style="color: #666; font-style: italic; margin-top: 10px;">"Un BOUT siempre sabe lo que hace... bueno, casi siempre"</p>
         </header>
 
         <!-- Progress Bar -->
@@ -496,6 +497,7 @@
                     <h3>¿Que es HuggingFace?</h3>
                     <p>Es como un "GitHub para modelos de IA". Alojan modelos gratuitos de machine learning,
                     incluyendo el que usamos para identificar quien habla en cada momento del video.</p>
+                    <p style="color: #888; font-style: italic; margin-top: 10px;">🤖 "Como diria Homero: No entiendo nada, pero suena importante"</p>
                 </div>
 
                 <div class="mock-browser">
@@ -531,6 +533,7 @@
                     <div>
                         <strong>Tip:</strong> Si ya tienes cuenta en HuggingFace, puedes saltar este paso
                         y ir directamente al paso 2.
+                        <p style="color: #888; font-style: italic; margin-top: 8px;">"Si algo es dificil de hacer, entonces no vale la pena hacerlo" - Homero Simpson (no le hagas caso)</p>
                     </div>
                 </div>
 
@@ -559,6 +562,7 @@
                     <h4>⚠️ Importante</h4>
                     <p>Debes estar logueado en HuggingFace antes de aceptar las licencias.
                     Si no ves el boton "Agree", primero inicia sesion.</p>
+                    <p style="font-style: italic; margin-top: 8px;">"Intentar es el primer paso hacia el fracaso" - Homero (pero vos segui intentando que va a salir)</p>
                 </div>
 
                 <div class="highlight-box">
@@ -628,6 +632,7 @@
                     <h3>¿Para que sirve el token?</h3>
                     <p>BOUT necesita autenticarse con HuggingFace para descargar los modelos.
                     El token le dice a HuggingFace "este programa tiene mi permiso".</p>
+                    <p style="color: #888; font-style: italic; margin-top: 10px;">🔑 Es como la llave del auto de tu viejo: sin ella no arranca (y mejor no perderla)</p>
                 </div>
 
                 <div class="highlight-box">
@@ -725,18 +730,28 @@
                 <div id="successMessage" class="success-message">
                     <div class="success-icon">🎉</div>
                     <h2 style="color: #00ff88; margin-bottom: 15px;">Configuracion Completada!</h2>
-                    <p style="color: #aaa; margin-bottom: 25px;">
+                    <p style="color: #aaa; margin-bottom: 15px;">
                         BOUT esta listo para identificar hablantes en tus videos.
                     </p>
-                    <p style="margin-bottom: 25px;">
-                        Tu token ha sido guardado en:<br>
-                        <code style="background: rgba(0,0,0,0.3); padding: 10px 20px; border-radius: 5px; display: inline-block; margin-top: 10px;">
-                            bout/core/config.py
-                        </code>
+                    <p style="color: #888; font-style: italic; margin-bottom: 20px;">
+                        "Wohoo!" - Homero Simpson (y vos tambien)
                     </p>
-                    <button onclick="window.close()" class="btn btn-primary">
-                        ✓ Cerrar y Empezar a Usar BOUT
-                    </button>
+                    <p style="margin-bottom: 25px;">
+                        Tu token ha sido guardado. Ahora:<br>
+                        <span style="color: #00d9ff;">1. Guarda el archivo hf_token.txt en la carpeta de BOUT</span><br>
+                        <span style="color: #00d9ff;">2. O copia el token y pegalo cuando BOUT te lo pida</span>
+                    </p>
+                    <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                        <a href="file:///${LOCALAPPDATA}/BOUT/BOUT.bat" onclick="openBout()" class="btn btn-primary">
+                            🚀 Abrir BOUT
+                        </a>
+                        <button onclick="window.close()" class="btn btn-secondary">
+                            ✓ Cerrar Tutorial
+                        </button>
+                    </div>
+                    <p style="color: #666; font-size: 0.9em; margin-top: 20px;">
+                        Tambien podes abrir BOUT desde el acceso directo en tu escritorio
+                    </p>
                 </div>
 
                 <div class="btn-group">
@@ -750,6 +765,7 @@
         <footer>
             <p>BOUT v2.0 - Video Transcription Tool</p>
             <p style="margin-top: 10px;">¿Problemas? Contacta al desarrollador</p>
+            <p style="color: #555; font-style: italic; margin-top: 15px;">"El BOUT es tu amigo, el BOUT te quiere" 🤗</p>
         </footer>
     </div>
 
@@ -852,6 +868,12 @@
             }).catch(() => {
                 console.log('Could not copy to clipboard');
             });
+        }
+
+        function openBout() {
+            // Try to open BOUT - this may not work from browser for security reasons
+            // User should use the desktop shortcut instead
+            alert('Si no se abre automaticamente, usa el acceso directo "BOUT" en tu escritorio');
         }
 
         // Initialize

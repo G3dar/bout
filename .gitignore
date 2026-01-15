@@ -20,13 +20,13 @@ build/
 *.swp
 *.swo
 
-# Project directories (user data)
-input/
-output/
-temp/
-logs/
-jobs/
-history/
+# Project directories (user data - root level only)
+/input/
+/output/
+/temp/
+/logs/
+/jobs/
+/history/
 
 # OS
 .DS_Store

@@ -151,19 +151,80 @@ try {
     # Create install batch script
     $batchScript = @"
 @echo off
+title BOUT - Instalando dependencias
 cd /d "$InstallPath"
 call venv\Scripts\activate.bat
+echo.
+echo ============================================================
+echo           BOUT - Instalando dependencias
+echo ============================================================
+echo.
+echo Esto puede tomar varios minutos...
+echo.
 python -m pip install --upgrade pip
 pip install -r requirements.txt
 pip install tkinterdnd2
+echo.
+echo ============================================================
+echo           Instalacion completada!
+echo ============================================================
+echo.
 "@
     $batchPath = "$InstallPath\install_deps.bat"
     Set-Content -Path $batchPath -Value $batchScript
 
-    # Run install script
-    $label.Text = "Instalando dependencias (puede tomar varios minutos)..."
+    # Funny messages to show during installation
+    $funnyMessages = @(
+        "Un BOUT debe saber esperar...",
+        "Que onda senora Bush?",
+        "Te dije que habia que esperar... posta que tarda",
+        "bout bout BOOOOOOOOOOOUT!",
+        "Bienvenido al mundo BOUT",
+        "Ya seguro pensaste que se colgo... pero no, tarda porque se esta bajando varios gigas de algo que posta es necesario",
+        "Aca va una visual de lo que esta haciendo..."
+    )
+
+    # Resize form for longer messages
+    $form.Size = New-Object System.Drawing.Size(550, 180)
+    $label.Size = New-Object System.Drawing.Size(500, 60)
+    $label.Text = $funnyMessages[0]
     $form.Refresh()
-    Start-Process -FilePath "cmd.exe" -ArgumentList "/c `"$batchPath`"" -Wait -WindowStyle Hidden
+
+    # Start the installation in the background (hidden at first)
+    $installProcess = Start-Process -FilePath "cmd.exe" -ArgumentList "/c `"$batchPath`"" -WindowStyle Hidden -PassThru
+
+    # Show funny messages while waiting
+    $messageIndex = 0
+    $startTime = Get-Date
+
+    while (-not $installProcess.HasExited) {
+        $elapsed = ((Get-Date) - $startTime).TotalSeconds
+        $newIndex = [Math]::Min([Math]::Floor($elapsed / 10), $funnyMessages.Count - 1)
+
+        if ($newIndex -ne $messageIndex) {
+            $messageIndex = $newIndex
+            $label.Text = $funnyMessages[$messageIndex]
+            $form.Refresh()
+
+            # On the last message, show the terminal window
+            if ($messageIndex -eq ($funnyMessages.Count - 1)) {
+                # Kill the hidden process and restart visible
+                if (-not $installProcess.HasExited) {
+                    Stop-Process -Id $installProcess.Id -Force -ErrorAction SilentlyContinue
+                    Start-Sleep -Milliseconds 500
+                    $installProcess = Start-Process -FilePath "cmd.exe" -ArgumentList "/c `"$batchPath`"" -WindowStyle Normal -PassThru
+                }
+            }
+        }
+
+        Start-Sleep -Milliseconds 500
+        [System.Windows.Forms.Application]::DoEvents()
+    }
+
+    # Wait for the process to finish if terminal was shown
+    if (-not $installProcess.HasExited) {
+        $installProcess.WaitForExit()
+    }
 
     # Create desktop shortcut
     $label.Text = "Creando accesos directos..."
