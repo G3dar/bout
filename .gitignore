@@ -1,0 +1,57 @@
+# Virtual environment
+venv/
+.venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Project directories (user data)
+input/
+output/
+temp/
+logs/
+jobs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# HuggingFace cache
+.cache/
+
+# Misc
+*.log
+*.tmp
+
+# Video/Audio files
+*.mp4
+*.wmv
+*.avi
+*.mkv
+*.wav
+*.mp3
+
+# Old/legacy code
+transcriptor/
+santiesun_bout/
+history/
+installer/
+nul
+
+# Spec files
+*.spec
