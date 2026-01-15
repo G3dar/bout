@@ -51,8 +51,10 @@ Thumbs.db
 transcriptor/
 santiesun_bout/
 history/
-installer/
 nul
+
+# Installer outputs (keep source, ignore compiled)
+installer/output/
 
 # Spec files
 *.spec
