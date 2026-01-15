@@ -180,51 +180,31 @@ echo.
         "Te dije que habia que esperar... posta que tarda",
         "bout bout BOOOOOOOOOOOUT!",
         "Bienvenido al mundo BOUT",
-        "Ya seguro pensaste que se colgo... pero no, tarda porque se esta bajando varios gigas de algo que posta es necesario",
-        "Aca va una visual de lo que esta haciendo..."
+        "Ya seguro pensaste que se colgo... pero no, tarda pq se baja varios gigas",
+        "Ahora se abre la terminal para que veas el progreso..."
     )
 
     # Resize form for longer messages
     $form.Size = New-Object System.Drawing.Size(550, 180)
     $label.Size = New-Object System.Drawing.Size(500, 60)
-    $label.Text = $funnyMessages[0]
-    $form.Refresh()
 
-    # Start the installation in the background (hidden at first)
-    $installProcess = Start-Process -FilePath "cmd.exe" -ArgumentList "/c `"$batchPath`"" -WindowStyle Hidden -PassThru
-
-    # Show funny messages while waiting
-    $messageIndex = 0
-    $startTime = Get-Date
-
-    while (-not $installProcess.HasExited) {
-        $elapsed = ((Get-Date) - $startTime).TotalSeconds
-        $newIndex = [Math]::Min([Math]::Floor($elapsed / 10), $funnyMessages.Count - 1)
-
-        if ($newIndex -ne $messageIndex) {
-            $messageIndex = $newIndex
-            $label.Text = $funnyMessages[$messageIndex]
-            $form.Refresh()
-
-            # On the last message, show the terminal window
-            if ($messageIndex -eq ($funnyMessages.Count - 1)) {
-                # Kill the hidden process and restart visible
-                if (-not $installProcess.HasExited) {
-                    Stop-Process -Id $installProcess.Id -Force -ErrorAction SilentlyContinue
-                    Start-Sleep -Milliseconds 500
-                    $installProcess = Start-Process -FilePath "cmd.exe" -ArgumentList "/c `"$batchPath`"" -WindowStyle Normal -PassThru
-                }
-            }
-        }
-
-        Start-Sleep -Milliseconds 500
+    # Show funny messages first (60 seconds total, one every 10 seconds)
+    for ($i = 0; $i -lt $funnyMessages.Count; $i++) {
+        $label.Text = $funnyMessages[$i]
+        $form.Refresh()
         [System.Windows.Forms.Application]::DoEvents()
+
+        # Wait 10 seconds, but keep UI responsive
+        for ($j = 0; $j -lt 20; $j++) {
+            Start-Sleep -Milliseconds 500
+            [System.Windows.Forms.Application]::DoEvents()
+        }
     }
 
-    # Wait for the process to finish if terminal was shown
-    if (-not $installProcess.HasExited) {
-        $installProcess.WaitForExit()
-    }
+    # Now show the terminal and run the installation
+    $label.Text = "Instalando dependencias (mira la terminal)..."
+    $form.Refresh()
+    Start-Process -FilePath "cmd.exe" -ArgumentList "/c `"$batchPath`"" -Wait -WindowStyle Normal
 
     # Create desktop shortcut
     $label.Text = "Creando accesos directos..."
