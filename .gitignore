@@ -26,6 +26,7 @@ output/
 temp/
 logs/
 jobs/
+history/
 
 # OS
 .DS_Store
