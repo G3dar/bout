@@ -7,7 +7,7 @@ Add-Type -AssemblyName System.Windows.Forms
 # Configuration
 $AppName = "BOUT"
 $AppVersion = "2.0"
-$RepoUrl = "https://github.com/G3dar/bout/archive/refs/heads/master.zip"
+$RepoUrl = "https://codeload.github.com/G3dar/bout/zip/refs/heads/master"
 $InstallPath = "$env:LOCALAPPDATA\BOUT"
 
 # GUI Functions
